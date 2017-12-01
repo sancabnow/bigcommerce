@@ -1,0 +1,12 @@
+{
+  "normalStoreUrl": "http://cabinetnow6.mybigcommerce.com",
+  "port": 3000,
+  "clientId": "oe1xzykv2m9p35jvvrsdebbgzuy0jd3",
+  "accessToken": "ov853to1i6qsu3tagig6qlm1b2uomeu",
+  "customLayouts": {
+    "brand": {},
+    "category": {},
+    "page": {},
+    "product": {}
+  }
+}

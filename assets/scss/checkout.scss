@@ -1,0 +1,483 @@
+// =============================================================================
+// Stencil Checkout  - Customize the checkout experience
+// =============================================================================
+h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
+	color: stencilColor("color-textBase");
+	font-family: 'Roboto Condensed', sans-serif;
+}
+
+body {
+	font-family: 'Roboto', sans-serif;
+}
+
+p {
+	font-family: 'Roboto', sans-serif;
+}
+
+p a {
+	color: stencilColor("color-textBase");
+}
+
+.header {
+	background-color: stencilColor("optimizedCheckout-body-backgroundColor");
+	border-color: stencilColor("container-border-global-color-dark");
+	border: none;
+}
+
+#tabcontent {
+	border-radius: 0;
+	border-color: stencilColor("container-border-global-color-dark");
+}
+
+#Header > .inner {
+	max-width: 960px;
+	border-bottom: 1px solid;
+	border-color: stencilColor("container-border-global-color-dark");
+}
+
+.page {
+	background-color: stencilColor("optimizedCheckout-body-backgroundColor");
+}
+
+.main .inner {
+	background-color: stencilColor("optimizedCheckout-body-backgroundColor");
+	max-width: 960px;
+}
+
+div.selector {
+	border-radius: 0;
+}
+
+input.Textbox, textarea, input[type="text"], input[type="password"] {
+	border-radius: 0;
+}
+
+input.btn {
+	border-radius: 0;
+}
+
+.header-logo a {
+	text-transform: uppercase;
+	font-family: 'Roboto Condensed', sans-serif;
+	font-weight: 600;
+	letter-spacing: 0;
+	font-size: 32px;
+	color: stencilColor("color-textBase");
+	line-height: 32px;
+}
+
+.header-logo a:hover {
+	color: stencilColor("color-primary");
+}
+
+.Content h3 {
+	 background-color: transparent;
+   border: none;
+   text-transform: capitalize;
+   background-color: transparent;
+   font-weight: 300;
+   font-size: 28px;
+   font-family: 'Roboto', sans-serif;
+   padding-left: 0;
+   margin-bottom: 0;
+   color: stencilColor("color-textBase");
+   margin-top: 0;
+}
+
+label {
+	font-size: 14px;
+	font-family: 'Roboto Condensed', sans-serif;
+	font-weight: 600;
+	text-transform: capitalize;
+	color: stencilColor("color-textBase");
+	margin-right: 10px;
+}
+
+input.btn {
+		border-top: none !important;
+		border-left: none !important;
+		border-right: none !important;
+    // border-bottom: 3px solid !important;
+    // border-color: stencilColor("forms-submitButton-borderColor") !important;
+    // font-weight: 600;
+    // font-size: 18px;
+    // font-family: 'Roboto Condensed', sans-serif !important;
+    // background-color: stencilColor("color-primary");
+    padding: 0px 30px;
+    height: 32px;
+    line-height: 32px;
+    letter-spacing: 0;
+		font-family: stencilFontFamily("forms-submitButton-fontFamily");
+		font-weight: stencilFontWeight("forms-submitButton-fontFamily");
+		background-color: stencilColor("forms-submitButton-bgColor");
+		color: stencilColor("forms-submitButton-fontColor");
+		border-bottom: 3px solid;
+		border-color: stencilColor("forms-submitButton-borderColor");
+}
+
+input.btn:hover {
+	// background: stencilColor("button--primary-backgroundColorHover");
+	// border-bottom: 3px solid;
+	// border-color: stencilColor("forms-submitButton-borderHoverColor") !important;
+	background-color: stencilColor("forms-submitButton-bgHoverColor");
+	color: stencilColor("forms-submitButton-fontHoverColor");
+	background: stencilColor("forms-submitButton-bgHoverColor");
+	border-bottom: 3px solid;
+	border-color: stencilColor("forms-submitButton-borderHoverColor");
+}
+
+.Required {
+	color: stencilColor("color-primary");
+}
+
+.ExpressCheckoutBlockCompleted a.ChangeLink {
+	border-radius: 0;
+	border-top: none;
+		border-left: none;
+		border-right: none;
+    border-bottom: 3px solid;
+    border-color: rgba(0, 0, 0, 0.35);
+    font-weight: 600;
+    font-size: 18px;
+    font-family: 'Roboto Condensed', sans-serif !important;
+    padding: 0px 30px;
+    height: 32px;
+    line-height: 32px;
+    letter-spacing: 0.05rem;
+    color: #ffffff;
+    text-transform: uppercase;
+		font-family: stencilFontFamily("forms-submitButton-fontFamily") !important;
+		font-weight: stencilFontWeight("forms-submitButton-fontFamily") !important;
+		background-color: stencilColor("forms-submitButton-bgColor") !important;
+		color: stencilColor("forms-submitButton-fontColor") !important;
+		border-bottom: 3px solid !important;
+		border-color: stencilColor("forms-submitButton-borderColor") !important;
+}
+
+.ExpressCheckoutBlockCompleted a.ChangeLink:hover {
+	background-color: stencilColor("forms-submitButton-bgHoverColor") !important;
+	color: #ffffff !important;
+	background: stencilColor("forms-submitButton-bgHoverColor") !important;
+	border-bottom: 3px solid !important;
+	border-color: stencilColor("forms-submitButton-borderHoverColor") !important;
+}
+
+.CartContents thead {
+	background-color: stencilColor("card--alternate-backgroundColor");
+	color: stencilColor("color-textBase");
+	border-top: 1px solid;
+	border-bottom: 1px solid;
+	border-color: stencilColor("container-border-global-color-dark");
+}
+
+.CartContents tfoot .CheckoutRedeemCoupon {
+	background-color: stencilColor("card--alternate-backgroundColor");
+	border-color: stencilColor("container-border-global-color-dark");
+}
+
+.CartContents tfoot .CheckoutRedeemCoupon td {
+	border-color: stencilColor("container-border-global-color-dark");
+	padding: 10px 15px;
+}
+
+.CartContents tfoot .SubTotal td {
+	border-color: stencilColor("container-border-global-color-dark");
+}
+
+table tbody tr td, table.General tbody tr td, table.CartContents tbody tr td, .CompareFieldName {
+	color: stencilColor("color-textBase");
+	border-color: stencilColor("container-border-global-color-dark");
+}
+
+tbody tr td span.Availability {
+	color: stencilColor("color-textBase");
+}
+
+p {
+	color: stencilColor("color-textBase");
+}
+
+.ExpressCheckoutBlock {
+  border-color: stencilColor("container-border-global-color-dark");
+}
+
+tr.SubTotal {
+	color: stencilColor("color-textBase");
+}
+
+div#payment_options {
+	color: stencilColor("color-textBase");
+}
+
+.CheckoutOrderComments {
+	color: stencilColor("color-textBase");
+}
+
+.PTB20 {
+	color: stencilColor("color-textBase");
+}
+
+.ExpressCheckoutBlockCollapsed .ExpressCheckoutTitle h3 {
+	color: stencilColor("color-textBase");
+	opacity: .75
+}
+
+div.radio span {
+	/*background-position: -20px -80px;*/
+}
+
+div.radio span.checked {
+	background-position: -20px -80px;
+}
+
+textarea {
+	background-color: stencilColor("card--alternate-backgroundColor");
+	border-color: stencilColor("container-border-global-color-dark");
+	color: stencilColor("color-textBase");
+}
+
+input.Textbox {
+	background-color: stencilColor("input-bg-color");
+	border-color: stencilColor("container-border-global-color-dark");
+}
+
+.ExpressCheckoutBlock .step {
+	background-color: stencilColor("color-grey");
+}
+
+.InfoMessage {
+	background-color: stencilColor("card--alternate-backgroundColor");
+	border: 1px solid;
+	border-color: stencilColor("container-border-global-color-dark");
+}
+
+.footer-links > .inner {
+	max-width: 960px;
+}
+
+div.selector span {
+	background-color: stencilColor("input-bg-color");
+	border: none;
+	padding: 0 15px;
+	height: 35px;
+	line-height: 35px;
+}
+
+#uniform-sel_billing_address {
+	border: 1px solid;
+	border-color: stencilColor("container-border-global-color-dark");
+}
+
+div.selector {
+	border: none;
+	border: 1px solid;
+	border-color: stencilColor("container-border-global-color-dark");
+	background-color: stencilColor("input-bg-color") !important;
+	height: 37px;
+	line-height: 35px;
+	min-height: 35px !important;
+}
+
+body {
+	color: stencilColor("color-textBase");
+}
+
+form .HorizontalFormContainer dd {
+	width: 225px;
+	line-height: 35px;
+}
+
+input, select, textarea, input.Textbox, input[type="text"], #SearchForm input {
+	color: stencilColor("color-textBase");
+}
+
+.CartContents tfoot .CheckoutRedeemCoupon td .Textbox {
+	height: 32px;
+}
+
+.HorizontalFormContainer dd .selector span {
+	color: stencilColor("color-textBase");
+	border: none;
+	height: 35px;
+	line-height: 35px;
+}
+
+input, select, textarea, input.Textbox, input[type="text"], #SearchForm input {
+	height: 35px;
+}
+
+.ErrorMessage {
+    background-color: stencilColor("card--alternate-backgroundColor");
+}
+
+a.btn.js-share-button {
+	border-radius: 0;
+	background-color: stencilColor("card-figcaption-button-background");
+	color: stencilColor("card-figcaption-button-color");
+	border-bottom: 3px solid;
+	border-color: stencilColor("color-greyDarker");
+	font-family: 'Roboto Condensed', sans-serif;
+	font-size: 14px;
+	letter-spacing: 0;
+	font-weight: bold;
+}
+
+#tabcontent {
+	background-color: stencilColor("card--alternate-backgroundColor");
+}
+
+#tabcontent #url {
+	color: stencilColor("color-primary");
+	padding-top: 5px;
+}
+
+a.btn.js-share-button:hover {
+	background-color: stencilColor("color-primary");
+	color: #ffffff !important;
+	border-color: stencilColor("button--default-borderColorHover");
+}
+
+.ProductActionAdd {
+	position: absolute;
+	bottom: 5px;
+	left: 15px;
+}
+
+.ProductActionAdd .btn {
+	border-radius: 0;
+	background-color: stencilColor("card-figcaption-button-background");
+	color: stencilColor("card-figcaption-button-color");
+	border-bottom: 3px solid;
+	border-color: rgba(0, 0, 0, 0.35);
+	font-family: 'Roboto Condensed', sans-serif;
+	font-size: 14px;
+	letter-spacing: 0;
+	font-weight: bold;
+	padding: 5px 20px;
+}
+
+.ProductList .pname {
+	font-family: 'Roboto Condensed', sans-serif;
+}
+
+em.p-price {
+	font-family: 'Roboto Condensed', sans-serif;
+}
+
+.ProductActionAdd .btn:hover {
+	background-color: stencilColor("color-primary");
+	color: #ffffff !important;
+	border-color: rgba(0, 0, 0, 0.35);
+}
+
+#SimilarMultiProductsByCustomerViews .ProductList {
+	margin-left: 0 !important;
+}
+
+#SimilarMultiProductsByCustomerViews .ProductList li {
+	background-color: stencilColor("card--alternate-backgroundColor");
+	padding: 0;
+	width: 19.4%;
+	margin: 0 2.5px;
+	min-height: 325px;
+	position: relative;
+}
+
+.Content h1 {
+	font-size: 28px;
+	font-family: 'Roboto', sans-serif;
+	color: stencilColor("color-textBase");
+}
+
+.ProductList .pname {
+	color: stencilColor("color-textBase");
+}
+
+.ExpressCheckoutBlock {
+	padding: 30px 0;
+}
+
+.checkout-banner {
+	border-color: stencilColor("container-border-global-color-dark");
+}
+
+.checkout-banner a {
+	color: stencilColor("color-textBase");
+}
+
+a:hover {
+	color: stencilColor("color-primary") !important;
+}
+
+.ProductList .ProductImage a, .ProductThumbImage a {
+	height: auto !important;
+}
+
+.ProductPriceRating {
+	display: none;
+}
+
+.WrappingOptions {
+	color: stencilColor("color-textBase") !important;
+}
+
+a.pname {
+	text-align: left;
+	padding: 5px 15px;
+}
+
+.ProductList .pname {
+	text-align: left !important;
+}
+
+em.p-price {
+	text-align: left !important;
+	padding: 5px 15px;
+}
+
+.ProductList .ProductDetails {
+  line-height: 1.25;
+  height: 40px;
+  overflow: hidden;
+}
+
+.ExpressCheckoutBlock .ExpressCheckoutTitle h3 {
+    display: inline-block!important;
+}
+
+form#LoginForm a {
+	color: stencilColor("contentPage-anchor-fontColor");
+}
+
+form#LoginForm a:hover {
+	color: stencilColor("contentPage-anchor-fontHoverColor") !important;
+}
+
+div.selector select {
+	background: stencilColor("input-bg-color") !important;
+}
+
+select option {
+	background: stencilColor("input-bg-color") !important;
+}
+
+#uniform-eway_ccexpm, #uniform-eway_ccexpy, #uniform-creditcard_ccexpm, #uniform-creditcard_ccexpy, #uniform-cc_ccexpm, #uniform-cc_ccexpy, #uniform-NMI_ccexpm, #uniform-NMI_ccexpy, #uniform-AuthorizeNet_ccexpm, #uniform-AuthorizeNet_ccexpy {
+	width: 100% !important;
+}
+
+@media only screen and (max-width : 480px) {
+
+.Block.ExpressCheckout {
+    margin: 0 auto;
+    width: 95%;
+}
+
+.ExpressCheckoutContent .HorizontalFormContainer dd {
+	width: 100%;
+}
+
+form {
+	width: 95%;
+	margin: 0 auto;
+}
+}

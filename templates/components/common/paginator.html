@@ -1,0 +1,122 @@
+<div class="pagination">
+    <ul class="pagination-list">
+        {{#if previous}}
+            <li class="pagination-item pagination-item--previous">
+                <a class="pagination-link" href="{{previous}}" {{#unless reload}}data-faceted-search-facet{{/unless}}>
+                    <i class="icon" aria-hidden="true">
+                        <svg>
+                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-chevron-left"></use>
+                        </svg>
+                    </i>
+                    {{lang 'common.previous'}}
+                </a>
+            </li>
+        {{/if}}
+        {{#each links}}
+            {{#if this.number '==' ../current}}
+                <li class="pagination-item pagination-item--current">
+                    <a class="pagination-link" href="{{this.url}}" {{#unless reload}}data-faceted-search-facet{{/unless}}>{{this.number}}</a>
+                </li>
+            {{else}}
+                <li class="pagination-item">
+                    <a class="pagination-link" href="{{this.url}}" {{#unless reload}}data-faceted-search-facet{{/unless}}>{{this.number}}</a>
+                </li>
+            {{/if}}
+        {{/each}}
+
+        {{#if next}}
+            <li class="pagination-item pagination-item--next">
+                <a class="pagination-link" href="{{next}}" {{#unless reload}}data-faceted-search-facet{{/unless}}>
+                    {{lang 'common.next'}}
+                    <i class="icon" aria-hidden="true">
+                        <svg>
+                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-chevron-right"></use>
+                        </svg>
+                    </i>
+                </a>
+            </li>
+        {{/if}}
+    </ul>
+</div>
+
+<div class="pagination bottom">
+    <ul class="pagination-list">
+        {{#if previous}}
+            <li class="pagination-item pagination-item--previous">
+                <a class="pagination-link" href="{{previous}}" {{#unless reload}}data-faceted-search-facet{{/unless}}>
+                    <i class="icon" aria-hidden="true">
+                        <svg>
+                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-chevron-left"></use>
+                        </svg>
+                    </i>
+                    {{lang 'common.previous'}}
+                </a>
+            </li>
+        {{/if}}
+        {{#each links}}
+            {{#if this.number '==' ../current}}
+                <li class="pagination-item pagination-item--current">
+                    <a class="pagination-link" href="{{this.url}}" {{#unless reload}}data-faceted-search-facet{{/unless}}>{{this.number}}</a>
+                </li>
+            {{else}}
+                <li class="pagination-item">
+                    <a class="pagination-link" href="{{this.url}}" {{#unless reload}}data-faceted-search-facet{{/unless}}>{{this.number}}</a>
+                </li>
+            {{/if}}
+        {{/each}}
+
+        {{#if next}}
+            <li class="pagination-item pagination-item--next">
+                <a class="pagination-link" href="{{next}}" {{#unless reload}}data-faceted-search-facet{{/unless}}>
+                    {{lang 'common.next'}}
+                    <i class="icon" aria-hidden="true">
+                        <svg>
+                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-chevron-right"></use>
+                        </svg>
+                    </i>
+                </a>
+            </li>
+        {{/if}}
+    </ul>
+</div>
+
+<script>
+$( document ).ready(function() {
+$('label.button.button--small.card-figcaption-button input').on ('click', function() {
+    $(this).closest('.custom-checkbox').toggleClass('selected');
+});
+});
+</script>
+
+<script>
+// ADD PRICES-HIDDEN CLASS IF LOGIN REQUIRED
+$(document).ready(function(){
+$("article.card .card-text .price-visibility.restricted").each(function(){
+    if ($(this).text().trim().length) {
+        $(this).addClass("price-hidden");
+				$(this).closest('div.card-body').addClass("prices-hidden");
+				$('.compare').hide();
+    }
+});
+});
+
+// CHECK IF RATINGS ARE ENABLED
+$(document).ready(function() {
+    var $myDiv = $('.card-text[data-test-info-type="productRating"]');
+
+    if ( $myDiv.length==0){
+        $('div.card-body').addClass("ratings-disabled");
+				$('article.card').addClass("ratings-disabled");
+    }
+});
+</script>
+
+<!-- CHECK CARDS FOR WITH/WITHOUT TAX PRICING -->
+<script>
+if ( $('.price-section').hasClass('price-section--withTax') ){
+    $('div.card-body').addClass('withTax');
+}
+if ( $('.price-section').hasClass('price-section--withoutTax') ){
+    $('div.card-body').addClass('withoutTax');
+}
+</script>

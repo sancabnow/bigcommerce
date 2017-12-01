@@ -1,0 +1,63 @@
+<div class="sideCategoryList content-page" id="side-categories" data-menu>
+    <div class="categories">
+        <h2 class="container-header">Shop by Category</h2>
+        <div class="category-list">
+            {{#each categories}}
+                <li class="navPages-item">
+                    {{> components/common/navigation-list}}
+                </li>
+            {{/each}}
+        </div> <!-- category-list -->
+    </div> <!-- categories -->
+    <div class="brands-option{{#if theme_settings.brands_visibility '!==' 'no-brands'}} with-brands{{/if}}">
+      <div class="brands">
+        <h2 class="container-header">Shop by Brand</h2>
+        <div class="brands-list">
+          {{#each shop_by_brand}}
+              <li>
+                  <a href="{{url}}">{{name}}</a>
+              </li>
+          {{/each}}
+              <li>
+                  <a href="/brands/">View all Brands</a>
+              </li>
+        </div> <!-- brand-list -->
+      </div> <!--brands-->
+    </div> <!--brands-option-->
+    <div class="shop-by-price">
+        {{#if category.faceted_search_enabled}}
+            {{> components/faceted-search/index category}}
+        {{else}}
+            {{> components/category/shop-by-price shop_by_price=category.shop_by_price category_url=category.url}}
+        {{/if}}
+    </div>
+</div> <!-- sideCategoryList -->
+
+<div class="page-content page-content">
+  {{> components/common/breadcrumbs breadcrumbs=breadcrumbs}}
+  <h1 class="page-heading">{{ page.title }}</h1>
+  {{#if page.sub_pages}}
+  <nav class="navBar navBar--sub">
+      <ul class="navBar-section account-navigation">
+      {{#each page.sub_pages}}
+          <li class="navBar-item"><a class="navBar-action" href="{{url}}">{{title}}</a></li>
+      {{/each}}
+      </ul>
+  </nav>
+  {{/if}}
+    {{#replace '%%Syndicate%%' page.content}}
+        {{> components/page/rss_feed}}
+    {{else}}
+        <p>{{{page.content}}}</p>
+    {{/replace}}
+</div>
+{{#if page.feed}}
+    <ul>
+        {{#each page.feed}}
+            <li>
+                <h2><a href="{{url}}" target="_blank">{{title}}</a></h6>
+                <p>{{content}}</p>
+            </li>
+        {{/each}}
+    </ul>
+{{/if}}

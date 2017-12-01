@@ -1,0 +1,43 @@
+<div class="sideCategoryList product-page" id="side-categories" data-menu>
+    <div class="categories">
+        <h2 class="container-header">Shop by Category</h2>
+        <div class="category-list">
+            {{#each categories}}
+                <li class="navPages-item">
+                    {{> components/common/navigation-list-alternate}}
+                </li>
+            {{/each}}
+        </div> <!-- category-list -->
+    </div> <!-- categories -->
+    <div class="brands-option{{#if theme_settings.brands_visibility '!==' 'no-brands'}} with-brands{{/if}}">
+      <div class="brands">
+        <h2 class="container-header">Shop by Brand</h2>
+        <div class="brands-list">
+          {{#each shop_by_brand}}
+              <li>
+                  <a href="{{url}}">{{name}}</a>
+              </li>
+          {{/each}}
+              <li>
+                  <a href="/brands/">View all Brands</a>
+              </li>
+        </div> <!-- brand-list -->
+      </div> <!--brands-->
+    </div> <!--brands-option-->
+    <div class="shop-by-price">
+        {{#if category.faceted_search_enabled}}
+            {{> components/faceted-search/index category}}
+        {{else}}
+            {{> components/category/shop-by-price shop_by_price=category.shop_by_price category_url=category.url}}
+        {{/if}}
+    </div>
+</div> <!-- sideCategoryList -->
+
+<div itemscope itemtype="http://schema.org/Product">
+  {{> components/common/breadcrumbs breadcrumbs=breadcrumbs}}
+    {{> components/products/product-view schema=true}}
+
+    {{> components/products/tabs}}
+    <!-- <div class="clear"></div> -->
+</div>
+</div>

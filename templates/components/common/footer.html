@@ -1,0 +1,507 @@
+<!-- {{#if banners.bottom}}
+<div class="banners" data-banner-location="bottom">
+    <div class="banner">
+        {{{limit banners.bottom 1}}}
+    </div>
+</div>
+{{/if}} -->
+<footer class="footer" role="contentinfo">
+	{{#if settings.show_newsletter_box}}
+    <div class="footer-top newsletter">
+        <div class="content">
+            <div class="" data-section-type="newsletterSubscription">
+                    {{> components/common/subscription-form}}
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+   {{/if}}
+    <div class="container">
+        <section class="footer-info">
+         <article class="footer-info-col footer-info-col--small" data-section-type="storeInfo">
+                <h5 class="footer-info-heading">Contact Us</h5>
+                <div class="regular">
+                    <address>{{nl2br settings.address}}</address>
+                </div>
+        </article>
+
+            <article class="footer-info-col footer-info-col--small" data-section-type="footer-webPages">
+                <h5 class="footer-info-heading">Accounts & Orders</h5>
+                <div class="regular">
+                <ul class="footer-info-list">
+                	{{#if settings.gift_certificates_enabled}}
+                        <li>
+                            <a href="/giftcertificates.php">Gift Certificates</a>
+                        </li>
+                    {{/if}}
+                        <li>
+                            <a href="/wishlist.php">Wishlist</a>
+                        </li>
+                    {{#if settings.account_creation_enabled}}
+                        {{#if customer}}
+                            <li><a class="navUser-action" href="{{urls.account.index}}">{{lang 'common.account'}}</a></li>
+                            <li><a class="navUser-action" href="{{urls.auth.logout}}">{{lang 'common.logout'}}</a></li>
+                        {{else}}
+                            <li><a class="navUser-action" href="{{urls.auth.login}}">{{lang 'common.login'}}</a>
+                            {{#if settings.account_creation_enabled}}
+                                <span class="navUser-or">{{lang 'common.or'}}</span> <a class="navUser-action" href="{{urls.auth.create_account}}">{{lang 'common.sign_up'}}</a></li>
+                            {{/if}}
+                        {{/if}}
+                    {{/if}}
+
+                    <li>
+                        <a href="/account.php?action=order_status">Order Status</a>
+                    </li>
+                    <li>
+                        <a href="/shipping-returns/">Shipping &amp; Returns</a>
+                    </li>
+                        <a href="{{urls.sitemap}}">{{lang 'sitemap.page_title'}}</a>
+                    </li>
+                </ul>
+                </div>
+            </article>
+
+            <article class="footer-info-col footer-info-col--small" data-section-type="footer-categories">
+                <h5 class="footer-info-heading">Quick Links</h5>
+                <div class="regular">
+                <ul class="footer-info-list">
+                    {{#each pages}}
+                    <li>
+                        <a href="{{url}}">{{name}}</a>
+                    </li>
+                    {{/each}}
+                </ul>
+                </div>
+            </article>
+
+            <article class="footer-info-col footer-info-col--small" data-section-type="footer-categories">
+
+                <h5 class="footer-info-heading">Recent Blog Posts</h5>
+                <div class="blog regular">
+                    <ul class="footer-info-list">
+                        {{#each blog.recent_posts}}
+                            <li><a href="{{url}}">{{title}}</a></li>
+                        {{/each}}
+                    </ul>
+                </div>
+
+
+                <div class="social-media">
+                    <h5 class="footer-info-heading">Connect with Us:</h5>
+                    {{> components/common/social-links}}
+                </div>
+								{{#if theme_settings.geotrust_ssl_common_name}}
+            			<div class="footer-geotrust-ssl-seal">
+                		{{> components/common/geotrust-ssl-seal}}
+            			</div>
+        				{{/if}}
+            </article>
+            <div class="clear"></div>
+            {{> components/common/payment-icons}}
+
+        </section>
+
+        <div class="clear"></div>
+    </div>
+
+
+    <div class="footer-bottom">
+        <div class="content copyright">
+            <ul class="site-info">
+                {{#if theme_settings.show_copyright_footer}}
+                    <div class="left">
+                        <li class="copyright"><span class="current-year">&copy; <span id="copyright_year"></span> {{settings.store_name}}</span></li>
+                        <li class="sitemap"><a href="{{urls.sitemap}}">{{lang 'sitemap.page_title'}}</a></li>
+                    </div>
+                    {{/if}}
+
+                {{#if theme_settings.show_powered_by}}
+                    <div class="right">
+                        <li class="built-by">Premium <a target="_blank" href="https://www.bigcommerce.com/">BigCommerce</a> Theme by <a class="lone-star-templates" target="_blank" href="http://lonestartemplates.com/">Lone Star Templates</a></li>
+                    </div>
+                {{/if}}
+                <div class="clear"></div>
+            </ul>
+        </div>
+    </div>
+    <div id="topcontrol" class="backtoTop" title="Scroll Back to Top">
+          <i class="fa fa-caret-square-o-up" aria-hidden="true"></i>
+      </div>
+    </footer>
+
+
+<!-- CALL MOST RECENT JQUERY LIBRARY -->
+<script
+  src="https://code.jquery.com/jquery-3.1.1.min.js"
+  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+  crossorigin="anonymous">
+</script>
+
+<!-- GET CURRENT YEAR FOR COPYRIGHT -->
+<script type="text/javascript">
+    document.getElementById("copyright_year").innerHTML = new Date().getFullYear();
+</script>
+
+<!-- CUSTOM SIDECATEGORY MENU -->
+<script>
+  $('.navPages-action.has-subMenu').each(function() {
+    $('<span class="down-arrow"><i class="fa fa-chevron-down" aria-hidden="true"></i></span>').insertAfter(this);
+});
+
+
+$( "span.down-arrow" ).on ('click', function() {
+    $(this).closest('li').toggleClass('active');
+    $(this).next('div.navPage-subMenu').toggleClass('sub-category-visible').slideToggle();
+    $('<div class="clear"></div>').insertAfter('.Left #SideCategoryList .sf-menu ul li ul');
+
+    if ( $(this).closest('li.navPages-item').hasClass('active') ) {
+        $(this).html('<i class="fa fa-chevron-up" aria-hidden="true"></i>');
+    } else ( $(this).html('<i class="fa fa-chevron-down" aria-hidden="true"></i>') );
+
+});
+</script>
+
+<script>
+$(document).ready(function($){
+$("span.down-arrow").on ('click', function() {
+	$(this).prev('a').toggleClass('active');
+
+	if ( $(this).prev('a').hasClass('active') ) {
+			$(this).html('<i class="fa fa-chevron-up" aria-hidden="true"></i>');
+	} else ( $(this).html('<i class="fa fa-chevron-down" aria-hidden="true"></i>') );
+});
+});
+</script>
+
+<script>
+$('#menu .navPage-subMenu li a i').on ('click', function(event) {
+   event.preventDefault();
+   $(this).next('ul#navPages-').toggleClass('sub-category-visible').slideToggle();
+});
+</script>
+
+<script>
+$( ".navPage-subMenu span.down-arrow" ).on ('click', function() {
+    $(this).closest('li').toggleClass('active');
+    $(this).next('ul.navPage-childList').toggleClass('sub-category-visible').slideToggle();
+    $('<div class="clear"></div>').insertAfter('.Left #SideCategoryList .sf-menu ul li ul');
+
+    if ( $(this).next('ul.navPage-childList').hasClass('sub-category-visible') ) {
+        $(this).html('<i class="fa fa-chevron-up" aria-hidden="true"></i>');
+    } else ( $(this).html('<i class="fa fa-chevron-down" aria-hidden="true"></i>') );
+
+});
+</script>
+
+<script>
+$( document ).ready(function() {
+$('label.button.button--small.card-figcaption-button input').on ('click', function() {
+    $(this).closest('.custom-checkbox').toggleClass('selected');
+});
+});
+</script>
+
+<script>
+$('.form-action.wishlist').on ('click', function() {
+    $(this).toggleClass('selected');
+});
+</script>
+
+<script>
+    $(window).scroll(function() {
+        if ($(this).scrollTop() > 100 ) {
+            $('.backtoTop').addClass("visible");
+        } else {
+            $('.backtoTop').removeClass("visible");
+        }
+    });
+
+    $('.backtoTop').click(function(){
+    $("html, body").animate({ scrollTop: 0 }, 600);
+    return false;
+    });
+</script>
+
+<script>
+    $('.custom-pages-nav li a.navPages-action.has-subMenu').hover(
+        function () {
+            $(this).siblings('div#menu .navPage-subMenu').show();
+        },
+        function () {
+            $(this).siblings('div#menu .navPage-subMenu').hide();
+        }
+    );
+</script>
+
+<script>
+$( document ).ready(function() {
+    $('.slider').hover(
+        function() {
+            $(this).addClass('active');
+        },
+        function() {
+            $(this).removeClass('active');
+        }
+    );
+});
+</script>
+
+<script>
+$('.navPages-quickSearch input').change(function() {
+    $('section.quickSearchResults').toggleClass("hide");
+});
+</script>
+
+<script>
+$(document).ready(function($){
+
+    $("main.page.blog .blog-post .excerpt").each(function(){
+            if ($(this).text().length > 0) {
+                $(this).text($(this).text().substr(0, 125));
+                $(this).append('...');
+                $(this).addClass('visible');
+            }
+        });
+});
+</script>
+
+<script>
+$(document).ready(function($){
+
+    $("main.page.blog h2.blog-title a").each(function(){
+        $("main.page.blog h2.blog-title a").html().toLowerCase();
+            if ($(this).text().length > 19) {
+                $(this).text($(this).text().substr(0, 19));
+                $(this).append('...');
+            }
+            $(this).addClass('visible');
+        });
+});
+</script>
+
+<script>
+$(document).ready(function($){
+        $('main.page.blog .blog-post-body').addClass('visible');
+    });
+</script>
+
+<script>
+// $(document).ready(function($){
+//
+//     $("h4.card-title a").each(function(){
+//             if ($(this).text().length > 57) {
+//                 $(this).text($(this).text().substr(0, 57));
+//                 $(this).append('...');
+//             }
+//             $(this).addClass('visible');
+//         });
+// });
+</script>
+
+<script>
+// $(document).ready(function($){
+//
+//     $(".ProductList .ProductDetails a").each(function(){
+//             if ($(this).text().length > 57) {
+//                 $(this).text($(this).text().substr(0, 57));
+//                 $(this).append('...');
+//             }
+//             $(this).addClass('visible');
+//         });
+// });
+</script>
+
+<script>
+// $(document).ready(function($){
+//
+//     $("h4.productView-title").each(function(){
+//             if ($(this).text().length > 15) {
+//                 $(this).text($(this).text().substr(0, 15));
+//                 $(this).append('...');
+//             }
+//             $(this).addClass('visible');
+//         });
+// });
+</script>
+
+<!-- LOGO / SEARCHBAR ALIGNMENT -->
+<script>
+$(document).ready(function($){
+if($('.header-logo').hasClass('header-logo--left')) {
+    $('.right.searchbar').addClass('right');
+    $('.navPages-container.inside-header.left-logo').addClass('visible');
+};
+
+if($('.header-logo').hasClass('header-logo--center')) {
+    $('.right.searchbar').addClass('center');
+    $('.navPages-container.inside-header.center-logo').show();
+};
+
+if($('.header-logo').hasClass('header-logo--right')) {
+    $('.right.searchbar').addClass('right');
+    $('.navPages-container.inside-header.right-logo').show();
+};
+});
+</script>
+
+<!-- DO NOT SHOW PRODUCT CAROUSEL UNTIL PAGE COMPLETELY LOADS -->
+<script>
+$(window).on("load", function(){
+    $('.sidebar.right').fadeIn();
+		$('.similar-products-by-views').fadeIn();
+		$('.new-products-container').fadeIn();
+   });
+</script>
+
+<!-- GET CURRENT CATEGORY FOR SIMILAR PRODUCTS -->
+<!-- ONLY WORKS IF BREADCRUMBS ARE ACTIVE-->
+<script>
+$(document).ready( function() {
+    var currentSubCategoryLink = $('li.breadcrumb.is-active').prev('li.breadcrumb').find('a').attr('href');
+    var currentSubCategory = $('li.breadcrumb.is-active').prev('li.breadcrumb').find('a').text();
+    $('.similar-products-link a').attr('href',currentSubCategoryLink);
+    $('.similar-products-link a').text(currentSubCategory);
+});
+</script>
+
+<script>
+	if ($('#tab-customField1 span.custom-value').text().length >= 1) {
+		$('li.tab.customFieldOne').addClass('visible');
+		$('#tab-customField1 .custom-field-container').addClass('visible');
+	}
+</script>
+
+<script>
+    $('#tab-customField1 .custom-field-container:contains("customFieldTab1")').wrap("<div class='visible'></div>");
+</script>
+
+<script>
+	var customName = $('span.custom-name').first().text();
+	$('.tab.customFieldOne.visible a').text(customName);
+	$('div#tab-customField1 h3.tab-content-title').text(customName);
+</script>
+
+<script>
+$(window).scroll(function(){
+	if($(window).innerWidth() <= 800) {
+	if($(this).scrollTop() > 25) $('.header-logo').fadeOut();
+	if($(this).scrollTop() < 25) $('.header-logo').fadeIn();
+	}
+});
+</script>
+
+<script>
+$(".navPages-quickSearch input").click(function(e){
+    $("section.quickSearchResults").addClass('active').fadeIn();
+		$('header a.modal-close.custom-quick-search').fadeIn();
+		$('a.reset.quicksearch').fadeIn();
+     e.stopPropagation();
+});
+
+$('.navPages-quickSearch input').keypress(function(e){
+	$('header a.modal-close.custom-quick-search').fadeIn();
+	$('a.reset.quicksearch').fadeIn();
+});
+</script>
+
+<script>
+$(document).ready(function(){
+	$('header a.modal-close.custom-quick-search').click(function(e) {
+		$(this).fadeOut();
+		$("section.quickSearchResults").removeClass('active').fadeOut();
+		$('a.reset.quicksearch').fadeOut();
+	});
+});
+
+$("a.reset.quicksearch").click(function(e){
+	$("section.quickSearchResults").empty();
+	$(this).fadeOut();
+	$("section.quickSearchResults").removeClass('active').fadeOut();
+	$('a.reset.quicksearch').fadeOut();
+	$('header a.modal-close.custom-quick-search').fadeOut();
+});
+</script>
+
+
+<script>
+$(document).click(function(event) {
+    if ( !$(event.target).hasClass('div.currency-converter')) {
+         $("div.currency-converter .navPage-subMenu").hide();
+				 event.stopPropagation();
+    }
+});
+</script>
+
+<script>
+	$("div.currency-converter").click(function(e){
+		$('div.currency-converter .navPage-subMenu').toggle();
+		e.stopPropagation();
+	});
+</script>
+
+<script>
+if($(window).innerWidth() > 800) {
+	$(document).click(function(){
+			$("section.quickSearchResults").removeClass('active').fadeOut();
+			$('header a.modal-close.custom-quick-search').fadeOut();
+			$('a.reset.quicksearch').fadeOut();
+	});
+}
+</script>
+
+<!-- HIDE SUBCATEGORY IMAGES IF CATEGORY IMAGE IS NOT SET-->
+<script>
+$(document).ready(function(){
+	if($('.subcategory-image.uploaded').length) {
+		$("li.subcategory-item .subcategory-image").fadeIn();
+	}
+});
+</script>
+
+<!-- HIDE COMPARE BUTTON IF PRODUCT COMPARISONS ARE DISABLED -->
+<script>
+$(document).ready(function(){
+if (!$('article.card').hasClass('compare-disabled')) {
+    $('.compare').fadeIn();
+}
+if ($('main#product-listing-container:contains("There are no products listed under this category.")').length > 0) {
+	$('.compare').hide();
+}
+});
+
+// ADD PRICES-HIDDEN CLASS IF LOGIN REQUIRED
+$(document).ready(function(){
+$("article.card .card-text .price-visibility.restricted").each(function(){
+    if ($(this).text().trim().length) {
+        $(this).addClass("price-hidden");
+				$(this).closest('div.card-body').addClass("prices-hidden");
+				$('.compare').hide();
+    }
+});
+});
+
+// CHECK IF RATINGS ARE ENABLED
+$(document).ready(function() {
+    var $myDiv = $('.card-text[data-test-info-type="productRating"]');
+
+    if ( $myDiv.length==0){
+        $('div.card-body').addClass("ratings-disabled");
+				$('article.card').addClass("ratings-disabled");
+    }
+});
+
+$(window).on("load", function(){
+	$('.subcategory-grid').fadeIn();
+	$('.productGrid').fadeIn();
+});
+</script>
+
+<!-- CHECK CARDS FOR WITH/WITHOUT TAX PRICING -->
+<script>
+if ( $('.price-section').hasClass('price-section--withTax') ){
+    $('div.card-body').addClass('withTax');
+}
+if ( $('.price-section').hasClass('price-section--withoutTax') ){
+    $('div.card-body').addClass('withoutTax');
+}
+</script>

@@ -1,0 +1,79 @@
+---
+blog:
+    recent_posts:
+        limit: {{theme_settings.homepage_blog_posts_count}}
+---
+{{#partial "page"}}
+<div class="page cart-page">
+
+    <main class="page-content" data-cart>
+        {{> components/common/breadcrumbs breadcrumbs=breadcrumbs}}
+
+        {{> components/cart/page-title}}
+
+        <div data-cart-status>
+            {{> components/cart/status-messages}}
+        </div>
+
+        {{#if cart.items.length}}
+            <div class="loadingOverlay"></div>
+
+            <div data-cart-content>
+                {{> components/cart/content}}
+            </div>
+
+            <div data-cart-totals>
+                {{> components/cart/totals}}
+            </div>
+
+            {{#if cart.show_primary_checkout_button}}
+                <div class="cart-actions">
+                    <a class="button button--primary" href="{{urls.checkout.single_address}}" title="{{lang 'cart.checkout.title'}}">{{lang 'cart.checkout.button'}}</a>
+                </div>
+            {{else}}
+                <div class="cart-actions">
+                    <a class="button" href="{{urls.home}}" title="{{lang 'cart.continue_shopping'}}">{{lang 'cart.continue_shopping'}}</a>
+                </div>
+            {{/if}}
+
+            {{#if cart.additional_checkout_buttons}}
+                <div class="cart-additionalCheckoutButtons">
+                    {{#each cart.additional_checkout_buttons}}
+                        {{{this}}}
+                    {{/each}}
+                </div>
+            {{/if}}
+        {{else}}
+            <h3>{{lang 'cart.checkout.empty_cart'}}</h3>
+        {{/if}}
+
+        {{{snippet 'cart'}}}
+    </main>
+</div>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="crossorigin="anonymous"></script>
+<script>
+	$("tr.cart-item").each(function(){
+		var Qty = parseFloat($.trim($(this).find('.form-increment').text()));
+		var Total = parseFloat($.trim($(this).find('strong.cart-item-value').text().replace('$','').replace(',','')));
+		console.log(Qty);
+		console.log(Total);
+			if ( Qty > 100 ) {
+			$(this).find(".definitionList .definitionList-key").each(function(){
+				var Label = $.trim($(this).text());
+				if ( Label == "Quantity:" ) {
+					console.log(parseFloat($.trim($(this).next().text())));
+					Qty = parseFloat($.trim($(this).next().text()));
+					
+				}
+			});
+			var Price = Total/Qty;
+			console.log(Qty);
+			console.log(Price);
+			$(this).find("span.cart-item-value").text("$"+Price.toFixed(2));
+			$(this).find('.form-increment span').text(Qty);
+		}
+		});
+</script>
+{{/partial}}
+{{> layout/base}}
+

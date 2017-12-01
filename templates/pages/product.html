@@ -1,0 +1,450 @@
+---
+product:
+    videos:
+        limit: {{theme_settings.productpage_videos_count}}
+    reviews:
+        limit: {{theme_settings.productpage_reviews_count}}
+    related_products:
+        limit: {{theme_settings.productpage_related_products_count}}
+    similar_by_views:
+        limit: {{theme_settings.productpage_similar_by_views_count}}
+blog:
+    recent_posts:
+        limit: {{theme_settings.homepage_blog_posts_count}}
+---
+{{#partial "page"}}
+<div class="recommended-visibility{{#if theme_settings.productpage_related_products_count '===' 0}} disabled{{/if}}">
+    <div class="product main left{{#if theme_settings.product_page_layout '!==' 'no-sidenav'}} product-page-with-sidenav{{/if}}">
+      <div class="recommended-position{{#if theme_settings.product_page_layout '===' 'recommended-below'}} below{{/if}}">
+        {{#each product.shipping_messages}}
+            {{> components/common/alert-info message}}
+        {{/each}}
+        {{#if ../theme_settings.product_page_layout '===' 'no-sidenav'}}
+          {{> components/page/product-page-no-sidenav}}
+        {{/if}}
+        {{#if ../theme_settings.product_page_layout '===' 'with-sidenav'}}
+          {{> components/page/product-page-with-sidenav}}
+        {{/if}}
+        {{#if ../theme_settings.product_page_layout '===' 'recommended-below'}}
+          {{> components/page/product-page-with-recommended-below}}
+        {{/if}}
+    <div class="clear"></div>
+</div>
+<div class="clear"></div>
+</div>
+
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="crossorigin="anonymous"></script>
+<script>
+	var Width = 0
+	var Height = 0;
+	var WidthRange = "";
+	var HeightRange = "";
+	var DepthRange = "";
+	var Type = "";
+	var Price = "0.00";
+	var PriceTemp = "0.00";
+	var Quantity = 1;
+	var Depth = "";
+	var FinishPrice = 0;
+	
+	
+	$(".form-field--increments").hide();
+	$(".productView-info-name").each(function(){
+		switch($.trim($(this).text())){
+			case "Price:": Price = parseFloat($(this).next().text()); break;
+			case "Wood:": Price = $(this).next().text().split('-'); $(this).hide(); $(this).next().hide(); break;
+			case "Width:": WidthRange = $(this).next().text().split('-'); $(this).hide(); $(this).next().hide(); break;
+			case "Height:": HeightRange = $(this).next().text().split('-'); $(this).hide(); $(this).next().hide(); break;
+			case "Depth:": Depth = $(this).next().text(); $(this).hide(); $(this).next().hide(); break;
+			case "Depth Range:": DepthRange = $(this).next().text().split('-'); $(this).hide(); $(this).next().hide(); break;
+			case "Type:": Type = $(this).next().text(); $(this).hide(); $(this).next().hide(); break;
+			case "Finish:": FinishPrice = parseFloat($(this).next().text()); $(this).hide(); $(this).next().hide(); break;
+		}
+	});
+	
+	$(document).ready(function(){
+		$(".form-field input[type='text']").each(function(){
+	    	var LabelText = $.trim($(this).prev().text()).split(":");
+			LabelText = LabelText[0];
+			switch(LabelText) {
+				case "Width": $(this).after('<small>Min: '+WidthRange[0]+'"&nbsp;&nbsp;Max: '+WidthRange[1]+'"</small>'); break;
+				case "Height": $(this).after('<small>Min: '+HeightRange[0]+'"&nbsp;&nbsp;Max: '+HeightRange[1]+'"</small>'); break;
+				case "Depth": $(this).after('<small>Min: '+DepthRange[0]+'"&nbsp;&nbsp;Max: '+DepthRange[1]+'"</small>'); break;
+			}
+		});
+	});
+	
+	$(".price-section span").removeAttr('class');
+	$(".price-section span").removeAttr('data-product-price-without-tax');
+	$(".price-section span, .productView-info").hide();
+	
+	switch(Type) {
+		case "Cabinet Door": BasicMath(); break;
+		case "Drawer Front": BasicMath(); break;
+		case "Drawer Box": DrawerBox(); break;
+	}
+	
+	function DrawerBox() {
+		$("#form-action-addToCart").each(function(){
+			$(this).hide();
+			$(this).before('<input id="form-action-addToCart2" class="button button--primary" type="submit" value="Add to Cart">');
+		});
+		
+		$(".form-field input[type='text'], .form-field select").change(function(){
+		    
+			var LabelText = $.trim($(this).prev().text()).split(":");
+			LabelText = LabelText[0];
+			switch(LabelText) {
+				case "Width": 
+				Width = parseFloat($(this).val());
+				if (Width < WidthRange[0] || Width > WidthRange[1]) { 
+					Width = 0;
+					alert("Please enter a width between "+WidthRange[0]+" and "+WidthRange[1]+" inches");
+				}
+				break;
+				case "Height":
+				Height = parseFloat($(this).val());
+				if (Height < HeightRange[0] || Height > HeightRange[1]) { 
+					Height = 0;
+					alert("Please enter a height between "+HeightRange[0]+" and "+HeightRange[1]+" inches");
+				}
+				break;
+				case "Depth":
+				Depth = parseFloat($(this).val());
+				if (Depth < DepthRange[0] || Depth > DepthRange[1]) { 
+					Depth = 0;
+					alert("Please enter a height between "+DepthRange[0]+" and "+DepthRange[1]+" inches");
+				}
+				break;
+				case "Quantity": 
+				Quantity = parseFloat($(this).val());
+				break;
+			}
+			PriceCheck();
+		});
+		$(".form-option-swatch").click(function(){
+			$(this).prev().click();
+			PriceCheck();
+		});
+		
+		function PriceCheck() {
+			if (Width < WidthRange[0] || Width > WidthRange[1]) { 
+				return false;
+			}
+			if (Height < HeightRange[0] || Height > HeightRange[1]) { 
+				return false;
+			}
+			var WoodType = Price;
+			var Perimeter= (Width*2)+(Depth*2);
+			
+			var one_tier = (Perimeter * 0.20) + 7.75;
+			var two_tier = (Perimeter * 0.23) + 8.00;
+			var three_tier = (Perimeter * 0.27) + 8.30;
+			var four_tier = (Perimeter * 0.32) + 8.55;
+			var five_tier = (Perimeter * 0.37) + 8.85;
+			var six_tier = (Perimeter * 0.42) + 9.20;
+			var seven_tier = (Perimeter * 0.45) + 9.75;
+			
+			var Markup = 1.67;
+			
+			var speciesbase = WoodType;
+			var multfactor;
+			var handlecharge = 0.5;
+			
+			if (speciesbase==20){
+				multfactor=1.0; // Aspen 9 ply
+				handlecharge=.5;
+				}else if(speciesbase==23){
+				multfactor=1.15; // Red Oak  
+				handlecharge=.5;
+				}else if(speciesbase==26){ 
+				multfactor=1.20; // Maple 
+				handlecharge=.5;
+				}else if (speciesbase==30){
+				multfactor=1.25; //  Cherry
+				handlecharge=.5;
+				}else if (speciesbase==32){
+				multfactor=1.30; //  Walnut
+				handlecharge=.5;
+				}else {
+				multfactor=1;
+				handlecharge=.5;
+			};
+			
+			var price_per_drawer_box;
+			
+			if (Height <= 4.0 ) { //Heights cut offs per catalog 4/16
+				price_per_drawer_box = parseFloat(one_tier).toFixed(2);
+				}else if(Height <= 6.0){
+				price_per_drawer_box = parseFloat(two_tier).toFixed(2);
+				}else if(Height <= 8.0){
+				price_per_drawer_box = parseFloat(three_tier).toFixed(2);
+				}else if(Height <= 10){
+				price_per_drawer_box = parseFloat(four_tier).toFixed(2);
+				}else if(Height <= 12){
+				price_per_drawer_box = parseFloat(five_tier).toFixed(2);
+				}else if(Height <= 14){
+				price_per_drawer_box = parseFloat(six_tier).toFixed(2);
+				}else if(Height <= 15){
+				price_per_drawer_box = parseFloat(seven_tier).toFixed(2);
+			}; 
+			
+			price_per_drawer_box = price_per_drawer_box*multfactor;
+			price_per_drawer_box = price_per_drawer_box*Markup;
+			
+			price_per_drawer_box = price_per_drawer_box + handlecharge;
+			
+			price_per_drawer_box = price_per_drawer_box.toFixed(2);
+			
+			$(".form-input--incrementTotal").val(price_per_drawer_box*100);
+			if ( price_per_drawer_box > 0 ) {
+				$(".price-section span").text("$"+price_per_drawer_box);
+				$(".price-section span").show();
+			}
+			
+		}		
+	}
+	
+	/*function DrawerBox2() {	
+		$("#form-action-addToCart").each(function(){
+			$(this).hide();
+			$(this).before('<input id="form-action-addToCart2" class="button button--primary" type="submit" value="Add to Cart">');
+		});
+		
+		$(".form-field input[type='text'], .form-field select").change(function(){
+			
+			var LabelText = $.trim($(this).prev().text()).split(":");
+			LabelText = LabelText[0]; 
+			switch(LabelText) {
+				case "Width": 
+				Width = parseFloat($(this).val());
+				if (Width < WidthRange[0] || Width > WidthRange[1]) { 
+					Width = 0;
+					alert("Please enter a width between "+WidthRange[0]+" and "+WidthRange[1]+" inches");
+				}
+				break;
+				case "Height":
+				Height = parseFloat($(this).val());
+				if (Height < HeightRange[0] || Height > HeightRange[1]) { 
+					Height = 0;
+					alert("Please enter a height between "+HeightRange[0]+" and "+HeightRange[1]+" inches");
+				}
+				break;
+				case "Depth":
+				Depth = parseFloat($(this).val());
+				if (Depth < DepthRange[0] || Depth > DepthRange[1]) { 
+					Depth = 0;
+					alert("Please enter a height between "+DepthRange[0]+" and "+DepthRange[1]+" inches");
+				}
+				break;
+				case "Quantity": 
+				Quantity = parseFloat($(this).val());
+				break;
+			}
+			PriceCheck();
+		});
+		$(".form-option-swatch").click(function(){
+			$(this).prev().click();
+			PriceCheck();
+		});
+		function PriceCheck() {
+			var AdditionalCost = 0;
+			var Percentage = 0;
+			
+			$(".form-field select option:selected").each(function(){
+				if ( $(this).val() != "" ) {
+					if ( $(this).text().indexOf('$') > -1 ) {
+						var OptionText = $(this).text().replace(')','').split("$");
+						AdditionalCost = parseFloat(AdditionalCost) + parseFloat(OptionText[1]);
+						} else if ( $(this).text().indexOf("%") > -1 ) {
+						var OptionText = $(this).text().replace(')','').split("(");
+						Percentage = parseFloat(Percentage) + parseFloat(OptionText[1]);
+					}
+				}
+			});
+			
+			var LinearInch = Width+Height+Depth;
+			if ( LinearInch > 100 ) {
+				AdditionalCost = AdditionalCost + 14.30;
+				} else if (LinearInch > 0) {
+				AdditionalCost = AdditionalCost + 9.5;
+			}
+			
+			$(".form-field .SwatchRadio.form-radio:checked").each(function(){
+				console.log($(this).attr('data-name'));
+				if ( $(this).attr('data-name').indexOf('Finish') > -1 ) {
+					if ( $(this).val() != "" ) {
+						if ( $(this).next().find('> span').attr('title').indexOf('$') > -1 ) {
+							var OptionText =  $(this).next().find('> span').attr('title').replace(')','').split("$");
+							FinishPrice = parseFloat(OptionText[1]);
+						}
+					}
+					} else if ( $(this).attr('data-name').indexOf('Wood Species') > -1 ) {
+					if ( $(this).val() != "" ) {
+						var OptionText =  $(this).next().find('> span').attr('title');
+						Price = OptionText;
+					}
+				}
+			});
+			
+			PriceCalc();
+			var BasePrice = ((((Width*2)+(Depth*2))*PriceTemp)+(((Width*Height)/144)*FinishPrice)+AdditionalCost);
+			if (Percentage > 0) {
+				BasePrice = (BasePrice * (Percentage/100))+BasePrice;
+			}
+			
+			var MathFig = (BasePrice*Quantity).toFixed(2); 
+			
+			console.log(Width,Depth,PriceTemp,FinishPrice,AdditionalCost);
+			
+			
+			$(".form-input--incrementTotal").val(MathFig*100);
+			if ( MathFig > 0 ) {
+				$(".price-section span").text("$"+MathFig);
+				$(".price-section span").show();
+			}
+		}
+		$("#form-action-addToCart2").click(function(e){
+			e.preventDefault();		
+			if (Width < WidthRange[0] || Width > WidthRange[1]) { 
+				alert("Please enter a width between "+WidthRange[0]+" and "+WidthRange[1]+" inches");
+				return false;
+				} else if (Height < HeightRange[0] || Height > HeightRange[1]) { 
+				alert("Please enter a height between "+HeightRange[0]+" and "+HeightRange[1]+" inches");
+				return false;
+				} else {
+				PriceCheck();
+				$("#form-action-addToCart").click();
+				//$(".productView-options form:eq(0)").submit();
+			}
+		});
+	}*/
+	
+	function PriceCalc() {
+		if (Price == "Solid Natural Maple") {
+			if (Height <= 4.0 ) {
+				PriceTemp = .42;
+				}else if(Height <= 6.0){
+				PriceTemp = .48;
+				}else if(Height <= 8.0){
+				PriceTemp = .55;
+				}else if(Height <= 10){
+				PriceTemp = .65;
+				}else if(Height <= 12){
+				PriceTemp = .70;
+				}else if(Height <= 14){
+				PriceTemp = .99;
+				}else if(Height <= 15){
+				PriceTemp = 1.12;
+			}
+			}else if (Price == "Solid Natural Cherry") {
+			if (Height <= 4.0 ) {
+				PriceTemp = .52;
+				}else if(Height <= 6.0){
+				PriceTemp = .58;
+				}else if(Height <= 8.0){
+				PriceTemp = .65;
+				}else if(Height <= 10){
+				PriceTemp = .75;
+				}else if(Height <= 12){
+				PriceTemp = .80;
+				}else if(Height <= 14){
+				PriceTemp = 1.09;
+				}else if(Height <= 15){
+				PriceTemp = 1.22;
+			}
+		}
+	}
+	
+	function BasicMath() {	
+		
+		$("#form-action-addToCart").each(function(){
+			$(this).hide();
+			$(this).before('<input id="form-action-addToCart2" class="button button--primary" type="submit" value="Add to Cart">');
+		});
+		$(".form-field input[type='text'], .form-field select").change(function(){
+			var LabelText = $.trim($(this).prev().text()).split(":");
+			LabelText = LabelText[0];
+			switch(LabelText) {
+				case "Width": 
+				Width = parseFloat($(this).val());
+				if (Width < WidthRange[0] || Width > WidthRange[1]) { 
+					Width = 0;
+					alert("Please enter a width between "+WidthRange[0]+" and "+WidthRange[1]+" inches");
+				}
+				break;
+				case "Height":
+				Height = parseFloat($(this).val());
+				if (Height < HeightRange[0] || Height > HeightRange[1]) { 
+					Height = 0;
+					alert("Please enter a height between "+HeightRange[0]+" and "+HeightRange[1]+" inches");
+				}
+				break;			
+				case "Quantity": 
+				Quantity = parseFloat($(this).val());
+				break;
+			}
+			
+			
+			
+			PriceCheck();
+		});
+		$(".form-option-swatch").click(function(){
+			$(this).prev().click();
+			PriceCheck();
+		});
+		function PriceCheck() {			
+			var AdditionalCost = 0;
+			var Percentage = 0;
+			$(".form-field select option:selected").each(function(){
+				if ( $(this).val() != "" ) {
+				    if ( $(this).text().indexOf('$') > -1 ) {
+						var OptionText = $(this).text().replace(')','').split("$");
+						AdditionalCost = parseFloat(AdditionalCost) + parseFloat(OptionText[1]);
+						} else if ( $(this).text().indexOf("%") > -1 ) {
+				        var OptionText = $(this).text().replace(')','').split("(");
+				        Percentage = parseFloat(Percentage) + parseFloat(OptionText[1]);
+					}
+				}
+			});
+			$(".form-field .SwatchRadio.form-radio:checked").each(function(){
+				if ( $(this).attr('data-name').indexOf('Finish') > -1 ) {
+					if ( $(this).val() != "" ) {
+						if ( $(this).next().find('> span').attr('title').indexOf('$') > -1 ) {
+							var OptionText =  $(this).next().find('> span').attr('title').replace(')','').split("$");
+							FinishPrice = parseFloat(OptionText[1]);
+						}
+					}
+					} else if ( $(this).attr('data-name').indexOf('Wood Species') > -1 ) {
+					
+				}
+			});
+			var BasePrice = (((Price)*((Width*Height)/144))+(((Width*Height)/144)*FinishPrice)+AdditionalCost);
+			if (Percentage > 0) {
+				BasePrice = (BasePrice * (Percentage/100))+BasePrice;
+			}
+			var MathFig = (BasePrice*Quantity).toFixed(2); 
+			$(".form-input--incrementTotal").val(MathFig*100);
+			if ( MathFig > 0 ) {
+				$(".price-section span").text("$"+MathFig);
+				$(".price-section span").show();
+			}
+		}
+		$("#form-action-addToCart2").click(function(e){
+			e.preventDefault();
+			if (Width < WidthRange[0] || Width > WidthRange[1]) { 
+				alert("Please enter a width between "+WidthRange[0]+" and "+WidthRange[1]+" inches");
+				return false;
+				} else if (Height < HeightRange[0] || Height > HeightRange[1]) { 
+				alert("Please enter a height between "+HeightRange[0]+" and "+HeightRange[1]+" inches");
+				return false;
+				} else {
+				PriceCheck();
+				$("#form-action-addToCart").click();
+				//$(".productView-options form:eq(0)").submit();
+			}
+		});
+	}
+</script> 
+{{/partial}}
+{{> layout/base}}

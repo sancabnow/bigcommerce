@@ -1,0 +1,1 @@
+{"pages/checkout":"---\nblog:\n    recent_posts:\n        limit: {{theme_settings.homepage_blog_posts_count}}\n---\nbrand.html\n"}

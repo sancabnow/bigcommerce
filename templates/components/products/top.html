@@ -1,0 +1,9 @@
+<h2 class="container-header page-heading">Current Top Sellers</h2>
+
+<ul class="productGrid productGrid--maxCol{{ columns }}" data-product-type="top_sellers">
+    {{#each products}}
+        <li class="product">
+            {{>components/products/card theme_settings=../theme_settings customer=../customer}}
+        </li>
+    {{/each}}
+</ul>
